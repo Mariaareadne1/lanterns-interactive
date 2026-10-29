@@ -8,7 +8,7 @@
 | 3. Letting go, the rise, floating lanterns, the wish | Done |
 | 4. Selection, three actions, undo/redo, persistence, capture, mobile | Done |
 | 5. Polish, scripted demo, gallery, README, case study | Done — `docs/media/`, `CASE_STUDY.md` |
-| Deploy to Vercel | Not done — waiting for the owner's go-ahead |
+| Deploy to Vercel | Done 2026-10-29 — https://lanterns-interactive.vercel.app (also lanterns-rouge.vercel.app; CLI deploy, redeploy with `npx vercel --prod`) |
 
 ## Numbers (2026-10-29)
 

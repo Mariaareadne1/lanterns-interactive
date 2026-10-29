@@ -38,9 +38,10 @@ The whole piece lives on three moments: the drawn loop turning into *your* lante
 
 ## What's incomplete
 
+(Live at https://lanterns-interactive.vercel.app.)
+
 - Only Chromium is tested; Safari and Firefox are untested.
 - The demo was recorded at ~37 fps on a heavily loaded machine; a re-record on an idle one should reach 60.
 - A heart-shaped loop becomes a heart-*ish* lantern: the row-by-row reading keeps outer widths, so a heart's top notch is lost.
 - Lanterns don't occlude one another's light, and the jetty casts no shadow on the water.
 - The lanterns are drawn larger than life (up to ~3 m tall at the label's scale) for legibility.
-- Not deployed; `npx vercel --prod` is ready once the owner confirms.

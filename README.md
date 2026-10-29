@@ -2,6 +2,8 @@
 
 **Draw a lantern over a lake at dusk. It lights up, lifts off, and drifts up into the night.**
 
+Live at **https://lanterns-interactive.vercel.app**
+
 ![The sky filling with lanterns over the lake](docs/media/demo-end.jpg)
 
 LANTERNS is the sixth piece in a family by the same hand — after [MEADOW](https://github.com/Mariaareadne1/meadow-interactive) (draw a sheep), POND, HIVE, [SKY](https://github.com/Mariaareadne1/sky-interactive) and TIDE — and its first night. One thing to draw, one thing it makes:
