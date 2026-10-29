@@ -15,10 +15,8 @@ await page.waitForFunction(() => window.__lanterns && !window.__lanterns.store.g
 await page.waitForTimeout(800);
 const [bx, by] = await page.evaluate(([x, z]) => {
   const s = window.__lanterns, cam = s.engine.camera, r = s.engine.canvas.getBoundingClientRect();
-  return import('/src/scene/lake.ts').then(({ surfaceHeight }) => {
-    const v = cam.position.clone().set(x, surfaceHeight(x, z), z).project(cam);
-    return [r.left + ((v.x + 1) / 2) * r.width, r.top + ((1 - v.y) / 2) * r.height];
-  });
+  const v = cam.position.clone().set(x, s.lib.surfaceHeight(x, z), z).project(cam);
+  return [r.left + ((v.x + 1) / 2) * r.width, r.top + ((1 - v.y) / 2) * r.height];
 }, [Number(X), Number(Z)]);
 const H = Number(PX);
 const radius = { round: (t) => 0.42 * Math.sin(Math.PI * t) + 0.08, tall: (t) => 0.22 * Math.sin(Math.PI * t) + 0.04, squat: (t) => 0.62 * Math.sin(Math.PI * t), heart: (t) => (t < 0.7 ? 0.45 * Math.sin((t / 0.7) * Math.PI * 0.5) : 0.45 * Math.cos(((t - 0.7) / 0.3) * Math.PI * 0.5) + 0.12 * Math.sin(((t - 0.7) / 0.3) * Math.PI)) }[shape];

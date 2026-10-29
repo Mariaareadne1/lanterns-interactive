@@ -72,8 +72,8 @@ export function starTarget(input: FlightInput): [number, number, number] {
 
 /** Distance risen along the flight after `t` seconds: slow at first, then steady. */
 export function risen(t: number, calm: boolean): number {
-  const v = calm ? 0.13 : 0.26;
-  const tau = calm ? 5 : 3;
+  const v = calm ? 0.22 : 0.42;
+  const tau = calm ? 4 : 2.5;
   if (t <= 0) return 0;
   return v * (t - tau * (1 - Math.exp(-t / tau)));
 }
@@ -111,7 +111,8 @@ export function lanternPose(input: FlightInput, now: number, calm = false): Pose
   // up first, then the breeze takes it back over the hills
   const ky = Math.pow(k, 0.8);
   const kh = Math.pow(k, 1.35);
-  const fade = 1 - k;
+  // sway, tilt and turning ease in from stillness, so letting go never jumps
+  const fade = (1 - k) * (1 - Math.exp(-t / 2.5));
   const sway = Math.sin(t * 0.85 + seed) * 0.16 * fade * motion;
   const swayZ = Math.sin(t * 0.63 + seed * 1.7) * 0.08 * fade * motion;
   const star = smoothstep(0.55, 0.92, k);
@@ -120,7 +121,7 @@ export function lanternPose(input: FlightInput, now: number, calm = false): Pose
     y: at[1] + (target[1] - at[1]) * ky,
     z: at[2] + (target[2] - at[2]) * kh + swayZ,
     scale: swell * (1 - 0.6 * smoothstep(0.05, 0.9, k)),
-    yaw: base.yaw + (calm ? 0 : 0.5 * Math.sin(t * 0.21 + seed) + t * 0.06 * fade),
+    yaw: base.yaw + (calm ? 0 : 0.5 * (Math.sin(t * 0.21 + seed) - Math.sin(seed)) + t * 0.06 * (1 - k)),
     tiltX: Math.cos(t * 0.63 + seed * 1.7) * 0.06 * fade * motion,
     tiltZ: -Math.cos(t * 0.85 + seed) * 0.1 * fade * motion,
     reveal,
@@ -132,7 +133,7 @@ export function lanternPose(input: FlightInput, now: number, calm = false): Pose
 }
 
 /** Elliptical radius band a floating lantern keeps to: clear of the jetty and the reeds. */
-export const ORBIT = { min: 0.16, max: 0.5 } as const;
+export const ORBIT = { min: 0.16, max: 0.43 } as const;
 const OMEGA = (Math.PI * 2) / 260; // one slow lap in a little over four minutes
 
 function floatPose(base: Pose, input: FlightInput, t: number, age: number, motion: number): Pose {
@@ -141,7 +142,7 @@ function floatPose(base: Pose, input: FlightInput, t: number, age: number, motio
   const a0 = Math.atan2((at[2] - LAKE.z) / LAKE.rz, (at[0] - LAKE.x) / LAKE.rx);
   const eC = Math.min(ORBIT.max, Math.max(ORBIT.min, e0));
   // drift into its lane over the first few seconds, the current picking up gently
-  const settle = 1 - Math.exp(-t / 5);
+  const settle = 1 - Math.exp(-t / 14);
   const e = e0 + (eC - e0) * settle;
   const tau = 4;
   const a = a0 + OMEGA * (t - tau * (1 - Math.exp(-t / tau)));

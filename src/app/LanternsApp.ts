@@ -32,8 +32,8 @@ export interface Placement {
 }
 
 const SIZE = {
-  sky: { min: 0.45, max: 1.35 },
-  lake: { min: 0.35, max: 0.85 },
+  sky: { min: 0.45, max: 1.7 },
+  lake: { min: 0.35, max: 1.0 },
 } as const;
 /** The plane (z = const) a lantern drawn up in the sky hangs on, just behind the hills. */
 const SKY_PLANE_Z = -TILE.halfZ - 0.6;

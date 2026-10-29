@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { Engine } from '../engine/Engine';
 import { Store, useAppState } from '../state/store';
-import { defaultDoc, emptyDoc, showcaseDoc, type LanternsDoc } from '../state/document';
+import { addLantern, defaultDoc, emptyDoc, showcaseDoc, type LanternsDoc } from '../state/document';
+import { lakeSDF, surfaceHeight } from '../scene/lake';
 import { downloadBlob, loadDoc } from '../state/persistence';
 import { LanternsApp } from './LanternsApp';
 import { WishCard } from './ui/WishCard';
@@ -17,9 +18,12 @@ interface Running {
   input: PointerInput;
 }
 
+/** Pure helpers for tests and QA scripts (they work the same against the production build). */
+const lib = { lakeSDF, surfaceHeight, showcaseDoc, addLantern };
+
 declare global {
   interface Window {
-    __lanterns?: Running & { store: Store };
+    __lanterns?: Running & { store: Store; lib: typeof lib };
   }
 }
 
@@ -84,7 +88,7 @@ export function App() {
     document.addEventListener('visibilitychange', visibility);
 
     const r: Running = { engine, app, input };
-    window.__lanterns = { ...r, store };
+    window.__lanterns = { ...r, store, lib };
     setRunning(r);
     return () => {
       document.removeEventListener('visibilitychange', visibility);
