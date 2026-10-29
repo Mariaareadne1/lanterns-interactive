@@ -63,7 +63,7 @@ const smoothstep = (a: number, b: number, x: number) => {
 export function starTarget(input: FlightInput): [number, number, number] {
   const { at, seed } = input;
   const drift = 1.5 + rand(seed, 1) * 2.5; // the breeze carries them a little east
-  const x = Math.max(-TILE.halfX * 0.8, Math.min(TILE.halfX * 0.8, at[0] * 0.55 + drift + (rand(seed, 2) - 0.5) * 7));
+  const x = Math.max(-TILE.halfX * 0.8, Math.min(TILE.halfX * 0.8, at[0] * 0.55 + drift + (rand(seed, 2) - 0.5) * 11));
   // high enough to clear the pines, low enough to stay inside the painted sky
   const y = 2.9 + rand(seed, 3) * 2.1;
   const z = -TILE.halfZ - 2.2 + rand(seed, 4) * 2.6;
@@ -94,7 +94,7 @@ export function lanternPose(input: FlightInput, now: number, calm = false): Pose
   const { reveal, lit, flare, swell } = intro(age, calm);
   const t = released === null ? 0 : Math.max(0, (now - released) / 1000);
   const motion = calm ? 0 : 1;
-  const base: Pose = { x: at[0], y: at[1], z: at[2], scale: swell, yaw: rand(seed, 9) * 0.8 - 0.4, tiltX: 0, tiltZ: 0, reveal, lit, flare, star: 0, phase: 'waiting' };
+  const base: Pose = { x: at[0], y: at[1], z: at[2], scale: swell, yaw: rand(seed, 9) * 0.36 - 0.18, tiltX: 0, tiltZ: 0, reveal, lit, flare, star: 0, phase: 'waiting' };
 
   if (mode === 'lake') return floatPose(base, input, t, age, motion);
 

@@ -22,16 +22,16 @@ export function wishTexture(wish: string): THREE.Texture | null {
   if (typeof document === 'undefined') return null;
   const canvas = document.createElement('canvas');
   canvas.width = 512;
-  canvas.height = 160;
+  canvas.height = 200;
   const ctx = canvas.getContext('2d');
   if (!ctx) return null;
   const chars = Array.from(wish);
   // shrink long wishes to fit across the lantern's face
-  let size = 92;
-  ctx.font = `600 ${size}px ${WISH_FONT}`;
-  while (ctx.measureText(wish).width > 470 && size > 40) {
+  let size = 118;
+  ctx.font = `700 ${size}px ${WISH_FONT}`;
+  while (ctx.measureText(wish).width > 480 && size > 48) {
     size -= 4;
-    ctx.font = `600 ${size}px ${WISH_FONT}`;
+    ctx.font = `700 ${size}px ${WISH_FONT}`;
   }
   const width = ctx.measureText(wish).width;
   let x = (canvas.width - width) / 2;

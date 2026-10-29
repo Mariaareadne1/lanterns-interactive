@@ -63,7 +63,7 @@ export function frameCamera(camera: THREE.PerspectiveCamera, width: number, heig
     const mid = (lo + hi) / 2;
     place(camera, portrait, mid);
     const e = extent(camera);
-    const fits = portrait ? e.y <= MARGIN_PORTRAIT_Y && e.x <= 1.6 : e.x <= MARGIN_LANDSCAPE && e.y <= MARGIN_LANDSCAPE;
+    const fits = portrait ? e.y <= MARGIN_PORTRAIT_Y && e.x <= 2.15 : e.x <= MARGIN_LANDSCAPE && e.y <= MARGIN_LANDSCAPE;
     if (fits) hi = mid;
     else lo = mid;
   }

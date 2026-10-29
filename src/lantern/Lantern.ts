@@ -96,10 +96,12 @@ void main() {
   // the wish, written in a loose hand on the side facing out: dark ink, faintly glowing
   if (uHasWish > 0.5) {
     float u = fract(vUv.x + 0.5) - 0.5;
-    vec2 tuv = vec2(u / 0.44 + 0.5, (h - 0.47) / 0.24 + 0.5);
+    vec2 tuv = vec2(u / 0.36 + 0.5, (h - 0.6) / 0.3 + 0.5);
     if (tuv.x > 0.0 && tuv.x < 1.0 && tuv.y > 0.0 && tuv.y < 1.0 && inside < 0.5) {
       float ink = texture2D(uWish, tuv).a;
-      col = mix(col, col * 0.42 + uTint * 0.12 * uLit, ink * 0.75);
+      // dark ink with the glow just showing through it
+      vec3 inkCol = col * 0.16 + vec3(0.09, 0.03, 0.01) * uLit;
+      col = mix(col, inkCol, ink * 0.88);
     }
   }
 

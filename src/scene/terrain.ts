@@ -102,14 +102,14 @@ varying vec3 vWorld;
 // A light's reflection: where the (rippled) mirror direction points at it.
 // Narrow across, long along the view — the streaky vertical smear of a light
 // on still water — then broken into dashes by slow ripples.
+// Returns (across, up): how far the mirror direction misses the light, sideways and vertically.
+vec2 miss(vec3 wp, vec3 R, vec3 L) {
+  vec3 D = normalize(L - wp);
+  return vec2(1.0 - dot(normalize(R.xz), normalize(D.xz)), R.y - D.y);
+}
 float reflection(vec3 wp, vec3 R, vec3 L, float wide, float tall) {
-  vec3 D = L - wp;
-  float dist = length(D);
-  D /= dist;
-  vec2 rh = normalize(R.xz), dh = normalize(D.xz);
-  float across = 1.0 - dot(rh, dh);
-  float up = R.y - D.y;
-  return exp(-across / (wide * wide) - (up * up) / (tall * tall));
+  vec2 m = miss(wp, R, L);
+  return exp(-m.x / (wide * wide) - (m.y * m.y) / (tall * tall));
 }
 
 void main() {
@@ -163,8 +163,10 @@ void main() {
   for (int i = 0; i < ${'$'}{REFLECTIONS}; i++) {
     vec4 L = uRefl[i];
     if (L.w <= 0.001) continue;
-    float g = reflection(vWorld, R, L.xyz, 0.035, 0.3);
-    float core = reflection(vWorld, R, L.xyz, 0.012, 0.1);
+    vec2 m = miss(vWorld, R, L.xyz);
+    if (m.x > 0.02) continue; // nowhere near this light's column
+    float g = exp(-m.x / (0.035 * 0.035) - (m.y * m.y) / (0.3 * 0.3));
+    float core = exp(-m.x / (0.012 * 0.012) - (m.y * m.y) / (0.1 * 0.1));
     refl += uReflColors[i] * L.w * (g * (0.25 + 0.75 * breakup) * 0.55 + core * 0.9);
   }
   col += refl;

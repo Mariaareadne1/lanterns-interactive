@@ -144,7 +144,7 @@ button:focus-visible { outline: 2px solid var(--select); outline-offset: 2px; }
 .hint {
   position: absolute;
   left: 50%;
-  top: max(22px, 5.5vh);
+  top: max(96px, 13vh);
   transform: translateX(-50%);
   margin: 0;
   white-space: nowrap;
